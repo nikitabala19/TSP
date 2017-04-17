@@ -12,11 +12,19 @@ function city (x, y,name)
         noStroke();
         fill(0);
         ellipse(this.xCoordinate,this.yCoordinate,10,10);
+        fill(255,0,0);
+        textAlign(CENTER,CENTER);
+        textStyle(BOLD)
+        text(this.name, this.xCoordinate, this.yCoordinate);
     }
     this.displayCityWithColor = function(color) {
         noStroke();
         fill(color);
         ellipse(this.xCoordinate,this.yCoordinate,10,10);
+        fill(255,0,0);
+        textAlign(CENTER,CENTER);
+        textStyle(BOLD)
+        text(this.name, this.xCoordinate, this.yCoordinate);
     }
 
     this.equals = function(other) {

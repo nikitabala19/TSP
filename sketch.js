@@ -1,12 +1,12 @@
 var cities = [];
 var edges = [];
 var distanceMatrix = [];
-
+var cityNumber = 0;
 var myTimerSoltuion;
 
 function setup() {
     h1 = createElement("h1","Visualization of TSP with Dynamic programming");
-    h1.style('text-align:center');
+    h1.style('text-align:left');
     
     var p1 = createP("Please enter the number of seeds in below provided box. This seeds are generated randomly.");
     
@@ -18,7 +18,7 @@ function setup() {
     
     createP("");
     
-    createCanvas(600,500);
+    createCanvas(600,450);
 
     createP("");
     
@@ -35,12 +35,21 @@ function setup() {
 function draw() {
     
     background(200);
-    
+    smooth();
     for(var i=0; i < edges.length;i++){
         edges[i].displayEdge();
     }
-    console.log("Hi");
     noLoop();
+}
+
+function mousePressed(){
+    cityNumber++;
+    if(0 <= mouseX && mouseX <= width && 0 <= mouseY && mouseY <= height){
+        cities.push(new city(mouseX,mouseY,cityNumber));
+        //console.log(cities);
+        populateEdges();
+    }
+    loop();
 }
 
 function buttonPlotRandomSeeds() {
@@ -50,9 +59,14 @@ function buttonPlotRandomSeeds() {
     distanceMatrix = [];
     
     for(var i=0; i<seeds; i++){
-        cities[i] = new city(floor(random(0,width-20)),floor(random(0,height-20)),i+1);
+        cities[i] = new city(floor(random(20,width-20)),floor(random(20,height-20)),i+1);
     }
-    
+    populateEdges();
+    loop();
+}
+
+function populateEdges(){
+    edges = [];
     for(var i=0; i<cities.length;i++){
         distanceMatrix[i] = [];
         for(var j=0;j<cities.length;j++){
@@ -65,10 +79,9 @@ function buttonPlotRandomSeeds() {
             }
         }
     }
-    console.log(distanceMatrix);
-    loop();
+    //console.log(edges);
+    //console.log(distanceMatrix);
 }
-
 
 function buttonStartTSP() {
     
@@ -159,6 +172,7 @@ function TSP(startCity, setOfCities, cities ){
         }
         currentDistances = sort(currentDistances);
         subProblemSolution = new SubProblemSolution(currentDistances[0],path);
+        console.log(subProblemSolution);
         var subPath = subProblemSolution.path;
         for(var a=0; a<subPath.length; a++){   
             var city1,city2;
@@ -185,6 +199,7 @@ function TSP(startCity, setOfCities, cities ){
                 //redraw();
             }
         }
+        redraw();
         return subProblemSolution;
     }
 }
